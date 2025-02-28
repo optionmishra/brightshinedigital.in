@@ -1,0 +1,39 @@
+# Ignore Composer's vendor folder
+/vendor/
+
+# Ignore Composer's lock file
+composer.lock
+
+# Ignore the .env file (since it contains sensitive information)
+.env
+.env.development
+
+# Ignore application logs
+/application/logs/*
+
+# Ignore cache folder
+/application/cache/*
+
+# Ignore generated files like sessions or CI's cache
+/system/cache/*
+/system/logs/*
+
+# Ignore database backup files
+*.sql
+*.sql.gz
+
+# Ignore MacOS system files
+.DS_Store
+
+# Ignore IDE specific files (e.g., PHPStorm, VSCode)
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Ignore Windows system files
+Thumbs.db
+desktop.ini
+
+node_modules
+

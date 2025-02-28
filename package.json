@@ -1,0 +1,19 @@
+{
+  "name": "Bright Shine Publication",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./src/input.css -o ./assets/new-pages/css/style.css --watch",
+    "build": "npx tailwindcss -i ./src/input.css -o ./assets/new-pages/css/style.css --minify"
+  },
+  "keywords": [],
+  "author": "Vikalp Mishra",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
+  },
+  "dependencies": {
+    "flowbite": "^2.3.0"
+  }
+}
