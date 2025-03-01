@@ -37,7 +37,7 @@ window.addEventListener("DOMContentLoaded", () => {
 			});
 		}
 	}
-	updateBooks();
+	// updateBooks();
 
 	async function updateSelections(categoryId = null) {
 		loading.classList.toggle("hidden");

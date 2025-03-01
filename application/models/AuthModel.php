@@ -2334,4 +2334,15 @@ class AuthModel extends CI_Model
 		$this->session->set_userdata('selectedBook', $bookId);
 		$this->session->set_userdata('selectedCategory', $categoryId);
 	}
+
+	public function isSeriesAssgined()
+	{
+		$userId = $this->session->userdata('user_id');
+		$res = $this->db
+			->where('web_user_id', $userId)
+			->get('web_user_series')
+			->row();
+
+		return (bool)$res;
+	}
 }

@@ -6,7 +6,7 @@
           <label class="mb-2 text-white" for="select_series">Select your Series</label>
           <select class="w-full px-3 py-2 rounded-md" name="" id="select_series">
             <?php foreach ($selectableSeries as $series) : ?>
-              <option value="<?= $series->id ?>"><?= $series->name ?></option>
+              <option value="<?= $series->id ?>" <?= $series->id == $this->session->userdata('selectedSeries') ? 'selected' : '' ?>><?= $series->name ?></option>
             <?php endforeach; ?>
           </select>
         </div>
@@ -15,7 +15,7 @@
           <label class="mb-2 text-white" for="selectSubject">Select your Subject</label>
           <select class="w-full px-3 py-2 rounded-md" name="mainSubject" id="selectSubject">
             <?php foreach ($selectableSubjects as $subject) : ?>
-              <option value="<?= $subject->id ?>"><?= $subject->name ?></option>
+              <option value="<?= $subject->id ?>" <?= $subject->id == $this->session->userdata('selectedSubject') ? 'selected' : '' ?>><?= $subject->name ?></option>
             <?php endforeach; ?>
           </select>
         </div>
@@ -24,7 +24,9 @@
           <label class="mb-2 text-white" for="selectBook">Select your Book</label>
           <select class="w-full px-3 py-2 rounded-md" name="select_book" id="selectBook">
             <?php foreach ($selectableBooks as $book) : ?>
-              <option value="<?= $book->id ?>"><?= $book->name ?></option>
+              <?php if ($book->sid == $this->session->userdata('selectedSubject')): ?>
+                <option value="<?= $book->id ?>" <?= $book->id == $this->session->userdata('selectedBook') ? 'selected' : '' ?>><?= $book->name ?></option>
+              <?php endif; ?>
             <?php endforeach; ?>
           </select>
         </div>

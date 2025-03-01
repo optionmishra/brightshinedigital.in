@@ -67,6 +67,9 @@ class Web extends CI_Controller
 		if (!$this->session->userdata('username')) {
 			header("location:" . base_url());
 		}
+		if (!$this->AuthModel->isSeriesAssgined()) {
+			return redirect(base_url('book-selection'));
+		}
 	}
 
 	public function logout()
