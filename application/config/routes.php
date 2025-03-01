@@ -1,6 +1,6 @@
 <?php
 
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
   | -------------------------------------------------------------------------
@@ -56,9 +56,13 @@ $route['admin/login'] = 'superadmin/login';
 $route['dashboard'] = 'web/dashboard';
 $route['profile'] = 'web/profile';
 $route['logout'] = 'web/logout';
-$route['teacher-registration'] = 'web/teacher_reg';
+// $route['teacher-registration'] = 'web/teacher_reg';
 $route['student-registration'] = 'web/student_reg';
+$route['teacher-registration'] = 'AuthController/teacherRegistrationIndex';
+// $route['student-registration'] = 'AuthController/studentRegistrationIndex';
+$route['book-selection'] = 'AuthController/bookSelection';
 $route['help'] = 'web/help';
-$route['query/teacher-question'] = 'web/teacher_que_query';  
+$route['query/teacher-question'] = 'web/teacher_que_query';
 $route['helps'] = 'web/helps';
+$route['api/(:any)'] = 'APIController/$1';
 $route['translate_uri_dashes'] = TRUE;

@@ -5,8 +5,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bright Shine Education</title>
-  <link rel="stylesheet" href="<?= base_url('assets/new-pages/css/style.css') ?>" />
-  <script src="<?= base_url('assets/new-pages/js/flowbite.min.js') ?>"></script>
+  <link rel="stylesheet" href="assets/new-pages/css/style.css" />
+  <script src="assets/new-pages/js/flowbite.min.js"></script>
 
 </head>
 
@@ -15,15 +15,20 @@
     <div class="container mx-auto">
       <div class="flex flex-col items-center justify-between sm:flex-row">
         <div class="logo">
-          <img src="<?= base_url('assets/new-pages/img/logo.png') ?>" alt="" />
+          <img src="assets/new-pages/img/logo.png" alt="" />
         </div>
         <div>
-          <img src="<?= base_url('assets/new-pages/img/logo_text.png') ?>" alt="" />
+          <img src="assets/new-pages/img/logo_text.png" alt="" />
         </div>
+
+        <!-- <div class="flex flex-col items-center justify-center gap-2">
+          <img src="" alt="" width="70" />
+        </div> -->
+
 
         <button id="dropdownUserAvatarButton" data-dropdown-toggle="dropdownAvatar" class="flex flex-col items-center justify-center gap-2 text-sm rounded-full md:me-0" type="button">
           <span class="sr-only">Open user menu</span>
-          <img class="w-16 h-16 rounded-full" src="<?= base_url('assets/new-pages/img/no-avatar.png') ?>" alt="user photo">
+          <img class="w-16 h-16 rounded-full" src="assets/new-pages/img/no-avatar.png" alt="user photo">
           <span><?= $user->fullname ?></span>
         </button>
 
@@ -48,44 +53,36 @@
             <a href="logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Log out</a>
           </div>
         </div>
+
+
       </div>
     </div>
   </header>
 
   <main class="bg-gradient-to-r from-[#024aae] to-[#c86de6] min-h-[calc(100vh-9rem)]">
     <div class="container flex justify-center p-8 mx-auto">
-      <div class="w-full">
-        <form class="flex flex-wrap w-full gap-2 sm:gap-0" action="<?= base_url('admin_master/default_product') ?>" method="post">
-          <div class="flex flex-col w-full my-5 sm:w-1/3">
-            <label class="my-2 text-white" for="select_book">Select your Book</label>
-            <select class="w-5/6 px-3 py-2 rounded-md" name="" id="select_book">
-              <option value="">Wonderspark</option>
-            </select>
-          </div>
-
-          <div class="flex flex-col w-full my-5 sm:w-1/3">
-            <label class="my-2 text-white" for="select_class">Select your Class</label>
-            <select class="w-5/6 px-3 py-2 rounded-md" name="select_classes" id="select_class">
-              <?php foreach ($selectable_classes as $class) : ?>
-                <option value="<?= $class->id ?>"><?= $class->name ?></option>
+      <div>
+        <h1 class="p-8 text-3xl text-center text-white">
+          Igniting the spark of GENIUS in YOUNG GENERATION
+        </h1>
+        <div class="flex flex-col-reverse items-center py-16 sm:flex-row">
+          <div class="w-full sm:w-2/3 2xl:w-1/2">
+            <ul class="flex flex-wrap justify-center gap-8">
+              <?php foreach ($categories as $category) : ?>
+                <?php foreach ($websupport_data as $data) : ?>
+                  <?php if ($data->type == $category->id) : ?>
+                    <li class="w-36 sm:w-auto">
+                      <a href="<?= base_url("analytics/download_websupport/$data->id") ?>"><img src="assets/new-pages/img/buttons/<?= $category->img ?>" alt="" /></a>
+                    </li>
+                  <?php endif; ?>
+                <?php endforeach; ?>
               <?php endforeach; ?>
-            </select>
+            </ul>
           </div>
-
-          <div class="flex flex-col w-full my-5 sm:w-1/3">
-            <label class="my-2 text-white" for="select_subject">Select your Subject</label>
-            <select class="w-5/6 px-3 py-2 rounded-md" name="mainSubject" id="select_subject">
-              <?php foreach ($selectable_subjects as $subject) : ?>
-                <option value="<?= $subject->id ?>"><?= $subject->name ?></option>
-              <?php endforeach; ?>
-            </select>
+          <div class="flex items-center justify-center w-full py-16 sm:w-1/3 xl:w-1/2">
+            <img src="assets/new-pages/img/img_right.png" alt="" />
           </div>
-          <div class="flex justify-center w-full sm:mt-16">
-            <button class="px-5 py-3 font-semibold text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-800">
-              Search
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </main>

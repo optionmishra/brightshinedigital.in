@@ -85,7 +85,7 @@ class Web extends CI_Controller
 			$this->session->set_flashdata('error', 'Sorry! Email or Password is incorrect');
 			redirect();
 		} else {
-			header("location:" . base_url() . 'web/welcome');
+			redirect(base_url('dashboard'));
 		}
 	}
 
@@ -123,7 +123,7 @@ class Web extends CI_Controller
 			'copyright' => $this->AuthModel->content('Copyright'),
 			'board' => $this->AuthModel->board_name($this->session->userdata('board_name')),
 			'publication' => $this->AuthModel->publication($this->session->userdata('publication')),
-			'websupport_data' => $res,
+			'contents' => $res,
 			'msubject' => $this->AuthModel->msubject($this->session->userdata('main_subject')),
 			'categories' => $this->AuthModel->category(),
 			'stucategory' => $this->AuthModel->categoryx_student(),
@@ -132,18 +132,24 @@ class Web extends CI_Controller
 			'user' => $this->WebModel->Webuser(),
 			'siteName' => $this->siteName,
 			#mod
-			'selectable_subjects' => $this->AuthModel->msubject_mod($this->WebModel->Webuser()->subject),
-			'selectable_classes' => $this->AuthModel->selectable_classes($this->session->userdata('main_subject'), $user_id),
-			'selectable_books' => $this->AuthModel->selectable_books($this->session->userdata('main_subject'), $this->session->userdata('classes')),
-			'selectable_categories' => $this->AuthModel->get_categories($this->session->userdata('selected_book')),
+			// 'selectable_subjects' => $this->AuthModel->msubject_mod($this->WebModel->Webuser()->subject),
+			// 'selectable_classes' => $this->AuthModel->selectable_classes($this->session->userdata('main_subject'), $user_id),
+			// 'selectable_books' => $this->AuthModel->selectable_books($this->session->userdata('main_subject'), $this->session->userdata('classes')),
+			// 'selectable_categories' => $this->AuthModel->get_categories($this->session->userdata('selected_book')),
+
+			'selectableSeries' => $this->AuthModel->selectableSeries(),
+			'selectableSubjects' => $this->AuthModel->selectableSubjects(),
+			'selectableBooks' => $this->AuthModel->selectableBooks(),
+			'selectableCategories' => $this->AuthModel->selectableCategories(),
+			'webUserContents' => $this->AuthModel->webUserContents($this->session->userdata('selectedBook'), $this->session->userdata('selectedCategory')),
 		];
 		// echo '<pre>', var_dump($this->session->userdata()), '</pre>';
-		// echo '<pre>', var_dump($data['websupport_data']), '</pre>';
+		// echo '<pre>', var_dump($data['selectableCategories']), '</pre>';
 		// exit();
 
-		// $this->load->view('globals/web/header', $data);
+		$this->load->view('globals/web/header', $data);
 		$this->load->view('web/dashboard', $data);
-		// $this->load->view('globals/web/footer', $data);
+		$this->load->view('globals/web/footer', $data);
 	}
 
 	public function profile()

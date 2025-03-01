@@ -360,8 +360,10 @@ class AuthModel extends CI_Model
 				$this->setTeacherSession($userData, $publication, $category, $selectedBook);
 			}
 
+			$this->updateSessionSelection();
 			return true;
 		}
+
 
 		return false;
 	}
@@ -2193,5 +2195,143 @@ class AuthModel extends CI_Model
 	{
 		$res = $this->db->get('state')->result();
 		return $res;
+	}
+
+	function getStates()
+	{
+		$res = $this->db
+			->get('states')
+			->result();
+
+		return $res;
+	}
+
+	function getCities($stateID)
+	{
+		$res = $this->db
+			->where('state_id', $stateID)
+			->get('cities')
+			->result();
+
+		return $res;
+	}
+
+	function addWebUser($data)
+	{
+		$res = $this->db
+			->insert('web_user', $data);
+
+		return $res;
+	}
+
+	/**
+	 * Generic method to retrieve user-associated items
+	 *
+	 * @param string $userTableName The name of the junction table (e.g., 'web_user_books')
+	 * @param string $itemTableName The name of the target table (e.g., 'books')
+	 * @param string $foreignKeyField The foreign key field in the junction table (e.g., 'book_id')
+	 * @return array The list of items associated with the current user
+	 */
+	private function getUserItems($userTableName, $itemTableName, $foreignKeyField)
+	{
+		$userId = $this->getCurrentUserID();
+
+		// Return empty array if no user ID
+		if (!$userId) {
+			return [];
+		}
+
+		$itemIds = $this->db
+			->where('web_user_id', $userId)
+			->select($foreignKeyField)
+			->get($userTableName)
+			->result();
+
+		$itemIdsArr = array_map(function ($item) use ($foreignKeyField) {
+			return $item->$foreignKeyField;
+		}, $itemIds);
+
+		// If no item IDs, return empty array
+		if (empty($itemIdsArr)) {
+			return [];
+		}
+
+		$items = $this->db
+			->where_in('id', $itemIdsArr)
+			->get($itemTableName)
+			->result();
+
+		return $items;
+	}
+
+	public function selectableSeries()
+	{
+		return $this->getUserItems('web_user_series', 'series', 'series_id');
+	}
+
+	public function selectableSubjects()
+	{
+		return $this->getUserItems('web_user_subjects', 'main_subject', 'main_subject_id');
+	}
+
+	public function selectableBooks()
+	{
+		return $this->getUserItems('web_user_books', 'subject', 'book_id');
+	}
+
+	public function selectableCategories($bookId = null)
+	{
+		if (!$bookId) $bookId = $this->selectableBooks()[0]->id;
+
+		$book = $this->db
+			->where('id', $bookId)
+			->get('subject')
+			->row();
+
+		$bookCategoriesArr = explode(',', $book->categories);
+		$res = $this->db
+			->where_in('id', $bookCategoriesArr)
+			->order_by('orderb', 'ASC')
+			->get('category')
+			->result();
+
+		return $res;
+	}
+
+	public function getCurrentUserID()
+	{
+		$userId = $this->session->userdata('user_id');
+
+		// Make sure user ID exists
+		if (!$userId) return false;
+
+		return $userId;
+	}
+
+	public function webUserContents($bookId = null, $categoryId = null)
+	{
+		if (!$bookId) $bookId = $this->selectableBooks()[0]->id;
+		if (!$categoryId) $categoryId = $this->selectableCategories($bookId)[0]->id;
+
+		$res = $this->db
+			->where('subject', $bookId)
+			->where('type', $categoryId)
+			->order_by('title', 'ASC')
+			->get('websupport')
+			->result();
+
+		return $res;
+	}
+
+	public function updateSessionSelection($subjectId = null, $bookId = null, $categoryId = null)
+	{
+		if (!$subjectId) $subjectId = $this->selectableSubjects()[0]->id;
+		if (!$bookId) $bookId = $this->selectableBooks()[0]->id;
+		if (!$categoryId) $categoryId = $this->selectableCategories($bookId)[0]->id;
+
+		// $this->session->set_userdata('selectedSeries', $seriesId);
+		$this->session->set_userdata('selectedSubject', $subjectId);
+		$this->session->set_userdata('selectedBook', $bookId);
+		$this->session->set_userdata('selectedCategory', $categoryId);
 	}
 }
