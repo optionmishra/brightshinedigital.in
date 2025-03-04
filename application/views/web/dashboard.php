@@ -21,7 +21,7 @@
         </div>
 
         <div class="flex flex-col flex-grow w-full mb-5 sm:w-1/5">
-          <label class="mb-2 text-white" for="selectBook">Select your Book</label>
+          <label class="mb-2 text-white" for="selectBook">Select your Class</label>
           <select class="w-full px-3 py-2 rounded-md" name="select_book" id="selectBook">
             <?php foreach ($selectableBooks as $book) : ?>
               <?php if ($book->sid == $this->session->userdata('selectedSubject')): ?>
@@ -44,7 +44,7 @@
     <!-- Categories -->
     <div class="flex justify-center mb-5 space-x-5 min-h-16" id="categoryBtns">
       <?php foreach ($selectableCategories as $category): ?>
-        <button class="flex flex-col w-32 p-2 space-y-2 transition-colors duration-300 ease-in-out bg-white rounded-md shadow-md cursor-pointer <?= $category->id === $this->session->userdata('selectedCategory') ? 'text-white bg-blue-800' : '' ?> hover:bg-blue-500" data-id="<?= $category->id ?>">
+        <button class="flex flex-col w-32 p-2 space-y-2 transition-colors duration-300 ease-in-out rounded-md shadow-md cursor-pointer <?= $category->id === $this->session->userdata('selectedCategory') ? 'text-white bg-blue-800' : 'bg-white' ?> hover:bg-blue-500" data-id="<?= $category->id ?>">
           <img src="<?= base_url("assets/new-pages/img/buttons/$category->img") ?>" alt="">
           <p class="text-sm font-semibold text-center"><?= $category->name ?></p>
         </button>

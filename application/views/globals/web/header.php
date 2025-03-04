@@ -15,10 +15,10 @@
   <header class="py-2 min-h-36 sm:py-0">
     <div class="container mx-auto">
       <div class="flex flex-col items-center justify-between sm:flex-row">
-        <div class="logo">
+        <div class="p-2 bg-white max-w-40 logo">
           <img src="<?= base_url('assets/new-pages/img/logo.png') ?>" alt="" />
         </div>
-        <div>
+        <div class="max-w-64">
           <img src="<?= base_url('assets/new-pages/img/logo_text.png') ?>" alt="" />
         </div>
 
