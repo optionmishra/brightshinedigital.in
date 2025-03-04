@@ -340,8 +340,13 @@ class AuthModel extends CI_Model
 	function validate_web($username, $password, $status = '1')
 	{
 		$publication = $this->AuthModel->publicationx();
-		$admin = $this->db->query("SELECT * FROM web_user WHERE email = ? AND password = ? AND status = ? LIMIT 1", [$username, $password, $status]);
+		$admin = $this->db->query("SELECT * FROM web_user WHERE email = ? AND password = ? LIMIT 1", [$username, $password]);
 		$adminRow = $admin->row();
+
+		if ($status != '0' && $adminRow->status != '1') {
+			$this->session->set_flashdata('error', 'We are currently verifying your account information. Please try again later.');
+			return redirect(base_url());
+		}
 
 		if ($adminRow) {
 			$userData = (array)$adminRow;
