@@ -53,7 +53,7 @@ class AuthController extends CI_Controller
       'state' => $this->input->post('state'),
       'board_name' => $this->input->post('board'),
       'user_type' => 'Teacher',
-      'status' => 1,
+      'status' => 0,
       'stu_limit' => 30,
       'school_name' => $this->input->post('schoolName'),
       'password' => $this->input->post('password'),

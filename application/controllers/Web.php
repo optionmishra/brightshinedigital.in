@@ -70,6 +70,11 @@ class Web extends CI_Controller
 		if (!$this->AuthModel->isSeriesAssgined()) {
 			return redirect(base_url('book-selection'));
 		}
+		$user = $this->WebModel->Webuser();
+		if (!$user->status) {
+			$this->session->set_flashdata('error', 'We are currently verifying your account information. Please try again later.');
+			return redirect(base_url());
+		}
 	}
 
 	public function logout()
