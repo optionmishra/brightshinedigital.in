@@ -62,7 +62,7 @@
                 <img src="<?= base_url('assets/bookicon/' . $content->book_image) ?>" alt="">
               </div>
               <p class="px-2 py-3 text-lg font-semibold text-center"><?= $content->title ?></p>
-              <a class="px-4 py-2 mt-auto font-semibold text-center text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-800" href="<?= base_url("analytics/download_websupport/$content->id") ?>">Download</a>
+              <a class="px-4 py-2 mt-auto font-semibold text-center text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-800" href="<?= base_url("analytics/download_websupport/$content->id") ?>" target="_blank">Download</a>
             </li>
           <?php endforeach; ?>
 
