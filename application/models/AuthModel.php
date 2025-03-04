@@ -337,10 +337,10 @@ class AuthModel extends CI_Model
 		return $res;
 	}
 
-	function validate_web($username, $password)
+	function validate_web($username, $password, $status = '1')
 	{
 		$publication = $this->AuthModel->publicationx();
-		$admin = $this->db->query("SELECT * FROM web_user WHERE email = ? AND password = ? AND status = ? LIMIT 1", [$username, $password, '1']);
+		$admin = $this->db->query("SELECT * FROM web_user WHERE email = ? AND password = ? AND status = ? LIMIT 1", [$username, $password, $status]);
 		$adminRow = $admin->row();
 
 		if ($adminRow) {

@@ -90,7 +90,7 @@ class AuthController extends CI_Controller
     } else {
       $this->session->set_flashdata('success', 'You are Successfully registered with us, Please Check your registered email for your account credentials...');
 
-      $res = $this->AuthModel->validate_web($this->input->post('email'), $this->input->post('password'));
+      $res = $this->AuthModel->validate_web($this->input->post('email'), $this->input->post('password'), '0');
       return redirect(base_url('/book-selection'));
     }
   }

@@ -87,7 +87,7 @@ class Web extends CI_Controller
 	{
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
-		$res = $this->AuthModel->validate_web($username, $password);
+		$res = $this->AuthModel->validate_web($username, $password, '0');
 		if (!$res) {
 			$status = $this->session->userdata('status');
 			$this->session->set_flashdata('error', 'Sorry! Email or Password is incorrect');

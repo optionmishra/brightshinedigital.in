@@ -48,8 +48,8 @@ class APIModel extends CI_Model
     // exit;
     $this->db->select('subject.id, subject.sid as subjectId, subject.class as classId, subject.name as title');
     if ($seriesId) $this->db->where('series_id', $seriesId);
-    if ($subjectIdsArr) $this->db->or_where_in('series_id', $subjectIdsArr);
-    if ($classIdsArr) $this->db->or_where_in('series_id', $classIdsArr);
+    if ($subjectIdsArr) $this->db->or_where_in('sid', $subjectIdsArr);
+    if ($classIdsArr) $this->db->or_where_in('class', $classIdsArr);
     $res = $this->db->get('subject')->result();
     return $res;
   }
