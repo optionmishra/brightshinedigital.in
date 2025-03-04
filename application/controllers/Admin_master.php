@@ -1915,25 +1915,40 @@ class Admin_master extends CI_Controller
 
 	function addSupport()
 	{
-		$ext2 = pathinfo($_FILES['book_image']['name'], PATHINFO_EXTENSION);
-		$photo2 = pathinfo($_FILES['book_image']['name'], PATHINFO_FILENAME);
-		$photogg2 = time() . $photo2 . "." . strtolower($ext2);
-		$photog2 = str_replace(' ', '_', $photogg2);
-		$path2 = 'assets/bookicon/';
+		$uploadSuccess = true;
+		$bookImagePath = 'assets/bookicon/';
+		$supportImagePath = 'assets/files/';
+		$bookImageFilename = '';
+		$supportImageFilename = '';
 
-		$up_type = $this->input->post('up_type');
-		if ($up_type === 'url') {
-			if (!empty($_FILES['book_image']['name'])) {
-				$this->upload_file($photog2, $path2, 'book_image') or $this->message('error', $this->upload_error);
-			}
-		} else {
-			$this->upload_file($photog, $path, 'support_image') or $this->message('error', $this->upload_error);
+		// Process book image
+		if (isset($_FILES['book_image']) && !empty($_FILES['book_image']['name'])) {
+			$bookImageFilename = $this->generateFilename($_FILES['book_image']['name']);
 
-			if (!empty($_FILES['book_image']['name'])) {
-				$this->upload_file($photog2, $path2, 'book_image') or $this->message('error', $this->upload_error);
+			if (!$this->upload_file($bookImageFilename, $bookImagePath, 'book_image')) {
+				$this->message('error', $this->upload_error);
+				return;
 			}
 		}
-		$states = implode(',', $this->input->post('states'));
+
+		// Process support image/file based on upload type
+		$uploadType = $this->input->post('up_type');
+		if ($uploadType !== 'url') {
+			if (isset($_FILES['support_image']) && !empty($_FILES['support_image']['name'])) {
+				$supportImageFilename = $this->generateFilename($_FILES['support_image']['name']);
+
+				if (!$this->upload_file($supportImageFilename, $supportImagePath, 'support_image')) {
+					$this->message('error', $this->upload_error);
+					return;
+				}
+			}
+		}
+
+		// Prepare states data
+		$states = $this->input->post('states');
+		$statesStr = is_array($states) ? implode(',', $states) : '';
+
+		// Prepare data for database
 		$data = [
 			'title' => $this->input->post('title'),
 			'type' => $this->input->post('type'),
@@ -1945,17 +1960,34 @@ class Admin_master extends CI_Controller
 			'description' => $this->input->post('description'),
 			'edition' => $this->input->post('edition'),
 			'year' => $this->input->post('year'),
-			'states' => $states,
-			'file_name' => $photog,
+			'states' => $statesStr,
+			'file_name' => $supportImageFilename,
 			'file_url' => $this->input->post('support_url'),
-			'book_image' => $photog2
+			'book_image' => $bookImageFilename
 		];
 
-		$res = $this->AuthModel->addSupport($data);
-		if (!$res) {
+		// Add support record to database
+		$result = $this->AuthModel->addSupport($data);
+		if (!$result) {
 			$this->message('error', $this->AuthModel->error);
+			return;
 		}
+
 		$this->message('success', 'Support Successfully Uploaded....');
+	}
+
+	/**
+	 * Generate a unique filename from the original filename
+	 * 
+	 * @param string $originalFilename The original filename
+	 * @return string The generated unique filename
+	 */
+	private function generateFilename($originalFilename)
+	{
+		$extension = strtolower(pathinfo($originalFilename, PATHINFO_EXTENSION));
+		$filename = pathinfo($originalFilename, PATHINFO_FILENAME);
+		$uniqueFilename = time() . $filename . '.' . $extension;
+		return str_replace(' ', '_', $uniqueFilename);
 	}
 
 	function update_support()
