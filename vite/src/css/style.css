@@ -1301,6 +1301,10 @@ input:checked + .toggle-bg {
   height: 100%;
 }
 
+.h-screen {
+  height: 100vh;
+}
+
 .max-h-full {
   max-height: 100%;
 }
@@ -1385,20 +1389,16 @@ input:checked + .toggle-bg {
   min-width: 24rem;
 }
 
-.max-w-md {
-  max-width: 28rem;
+.max-w-40 {
+  max-width: 10rem;
 }
 
 .max-w-64 {
   max-width: 16rem;
 }
 
-.max-w-48 {
-  max-width: 12rem;
-}
-
-.max-w-40 {
-  max-width: 10rem;
+.max-w-md {
+  max-width: 28rem;
 }
 
 .flex-1 {
@@ -1768,6 +1768,34 @@ input:checked + .toggle-bg {
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+
+.bg-\[\#ffffffee\] {
+  background-color: #ffffffee;
+}
+
+.bg-\[\#ffffff22\] {
+  background-color: #ffffff22;
+}
+
+.bg-\[\#ffffffaa\] {
+  background-color: #ffffffaa;
+}
+
+.bg-\[\#000000aa\] {
+  background-color: #000000aa;
+}
+
+.bg-\[\#000000cc\] {
+  background-color: #000000cc;
+}
+
+.bg-\[\#00000033\] {
+  background-color: #00000033;
+}
+
+.bg-\[\#00000088\] {
+  background-color: #00000088;
 }
 
 .bg-gradient-to-r {

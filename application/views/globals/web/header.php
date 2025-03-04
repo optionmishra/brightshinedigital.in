@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="base_url" content="<?= base_url() ?>">
-  <title>Bright Shine Education</title>
+  <title>Brightshine Publication</title>
   <link rel="stylesheet" href="<?= base_url('assets/new-pages/css/style.css') ?>" />
   <script src="<?= base_url('assets/new-pages/js/flowbite.min.js') ?>"></script>
 

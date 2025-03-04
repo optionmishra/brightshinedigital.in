@@ -344,7 +344,7 @@ class AuthModel extends CI_Model
 		$adminRow = $admin->row();
 
 		if ($status != '0' && $adminRow->status != '1') {
-			$this->session->set_flashdata('error', 'We are currently verifying your account information. Please try again later.');
+			$this->session->set_flashdata('inactive_ac', 'We are currently verifying your details.<br />Please allow 3-4 hours for activation.');
 			return redirect(base_url());
 		}
 

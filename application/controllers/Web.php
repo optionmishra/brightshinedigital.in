@@ -72,7 +72,7 @@ class Web extends CI_Controller
 		}
 		$user = $this->WebModel->Webuser();
 		if (!$user->status) {
-			$this->session->set_flashdata('error', 'We are currently verifying your account information. Please try again later.');
+			$this->session->set_flashdata('inactive_ac', 'We are currently verifying your details.<br />Please allow 3-4 hours for activation.');
 			return redirect(base_url());
 		}
 	}

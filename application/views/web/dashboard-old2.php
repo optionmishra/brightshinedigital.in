@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bright Shine Education</title>
+  <title>Brightshine Publication</title>
   <link rel="stylesheet" href="assets/new-pages/css/style.css" />
   <script src="assets/new-pages/js/flowbite.min.js"></script>
 
