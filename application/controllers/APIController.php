@@ -58,14 +58,17 @@ class APIController extends CI_Controller
   public function initBookSelection()
   {
     $allSeries = $this->APIModel->getAllSeries();
-    $seriesId = $allSeries[0]->id;
-    $subjects = $this->APIModel->getSubjectsBySeriesId($seriesId);
-    $subjectIdsArr = array_map(fn($subject) => $subject->id, $subjects);
+    $allSubjects = $this->APIModel->getAllSubjects();
+    // $seriesId = $allSeries[0]->id;
+    // $subjects = $this->APIModel->getSubjectsBySeriesId($seriesId);
+    // $subjectIdsArr = array_map(fn($subject) => $subject->id, $subjects);
     $data = [
       'series' => $allSeries,
-      'subjects' => $subjects,
+      // 'subjects' => $subjects,
+      'subjects' => $allSubjects,
       'classes' => $this->APIModel->getAllClasses(),
-      'books' => $this->APIModel->getFilteredBooks($seriesId, $subjectIdsArr),
+      // 'books' => $this->APIModel->getFilteredBooks($seriesId, $subjectIdsArr),
+      'books' => $this->APIModel->getFilteredBooks(),
     ];
     return $this->sendAPIResponse($data);
   }

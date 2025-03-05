@@ -4,11 +4,11 @@ import Loading from "./components/ui/Loading";
 import Error from "./components/ui/Error";
 
 const BookSelection = () => {
-	const [series, setSeries] = useState([]);
+	const [seriess, setSeriess] = useState([]);
 	const [subjects, setSubjects] = useState([]);
 	const [classes, setClasses] = useState([]);
 	const [books, setBooks] = useState([]);
-	const [selectedSeries, setSelectedSeries] = useState([]);
+	const [selectedSeriess, setSelectedSeriess] = useState([]);
 	const [selectedSubjects, setSelectedSubjects] = useState([]);
 	const [selectedClasses, setSelectedClasses] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -45,6 +45,8 @@ const BookSelection = () => {
 	// ];
 
 	const filteredBooks = books.filter((book) => {
+		const matchesSeries =
+			selectedSeriess.length === 0 || selectedSeriess.includes(book.seriesId);
 		const matchesSubject =
 			selectedSubjects.length === 0 ||
 			selectedSubjects.includes(book.subjectId);
@@ -53,7 +55,7 @@ const BookSelection = () => {
 		const matchesSearch = book.title
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
-		return matchesSubject && matchesClass && matchesSearch;
+		return matchesSeries && matchesSubject && matchesClass && matchesSearch;
 	});
 
 	useEffect(() => {
@@ -64,52 +66,52 @@ const BookSelection = () => {
 		setLoading(true);
 		const res = await fetch(`${BASE_URL}initBookSelection`);
 		const data = await res.json();
-		setSeries(data.series);
-		setSelectedSeries(data.series[0]?.id);
+		setSeriess(data.series);
+		// setSelectedSeries(data.series[0]?.id);
 		setSubjects(data.subjects);
 		setClasses(data.classes);
 		setBooks(data.books);
 		setLoading(false);
 	}
 
-	async function fetchSeries() {
-		setLoading(true);
-		const res = await fetch(`${BASE_URL}getAllSeries`);
-		const data = await res.json();
-		setSeries(data);
-		setLoading(false);
-	}
+	// async function fetchSeries() {
+	// 	setLoading(true);
+	// 	const res = await fetch(`${BASE_URL}getAllSeries`);
+	// 	const data = await res.json();
+	// 	setSeries(data);
+	// 	setLoading(false);
+	// }
 
-	async function fetchSubjectsBooks(seriesId) {
-		setLoading(true);
-		const res = await fetch(`${BASE_URL}getSubjectsBooks?series=${seriesId}`);
-		const data = await res.json();
-		setSubjects(data.subjects);
-		setBooks(data.books);
-		setLoading(false);
-	}
+	// async function fetchSubjectsBooks(seriesId) {
+	// 	setLoading(true);
+	// 	const res = await fetch(`${BASE_URL}getSubjectsBooks?series=${seriesId}`);
+	// 	const data = await res.json();
+	// 	setSubjects(data.subjects);
+	// 	setBooks(data.books);
+	// 	setLoading(false);
+	// }
 
-	async function fetchClasses() {
-		setLoading(true);
-		const res = await fetch(`${BASE_URL}getAllClasses`);
-		const data = await res.json();
-		setClasses(data);
-		setLoading(false);
-	}
+	// async function fetchClasses() {
+	// 	setLoading(true);
+	// 	const res = await fetch(`${BASE_URL}getAllClasses`);
+	// 	const data = await res.json();
+	// 	setClasses(data);
+	// 	setLoading(false);
+	// }
 
-	async function fetchbooks() {
-		setLoading(true);
-		const res = await fetch(`${BASE_URL}getBooks`);
-		const data = await res.json();
-		setBooks(data);
-		setLoading(false);
-	}
+	// async function fetchbooks() {
+	// 	setLoading(true);
+	// 	const res = await fetch(`${BASE_URL}getBooks`);
+	// 	const data = await res.json();
+	// 	setBooks(data);
+	// 	setLoading(false);
+	// }
 
-	function handleSeriesChange(e) {
-		setSelectedBooks([]);
-		setSelectedSeries(e.target.value);
-		fetchSubjectsBooks(e.target.value);
-	}
+	// function handleSeriesChange(e) {
+	// 	setSelectedBooks([]);
+	// 	setSelectedSeries(e.target.value);
+	// 	fetchSubjectsBooks(e.target.value);
+	// }
 
 	async function saveBooks() {
 		setLoading(true);
@@ -118,7 +120,7 @@ const BookSelection = () => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ selectedBooks, selectedSeries }),
+			body: JSON.stringify({ selectedBooks }),
 		});
 		const data = await res.json();
 		if (!data.success) setErrorStatus({ error: true, message: data.message });
@@ -139,8 +141,8 @@ const BookSelection = () => {
 			{errorStatus.error && (
 				<Error message={errorStatus.message} setErrorStatus={setErrorStatus} />
 			)}
-			<div className="p-4 mx-auto">
-				<div className="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
+			<div className="p-4 mx-auto bg-gray-50 h-[40rem] overflow-y-auto">
+				{/* <div className="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
 					<label className="text-sm" htmlFor="series">
 						Prescribed Series *
 					</label>
@@ -155,7 +157,7 @@ const BookSelection = () => {
 							</option>
 						))}
 					</select>
-				</div>
+				</div> */}
 
 				{/* Search Bar */}
 				<div className="relative mb-4">
@@ -169,10 +171,31 @@ const BookSelection = () => {
 					/>
 				</div>
 
-				<div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+				<div className="grid h-full grid-cols-1 gap-4 md:grid-cols-4">
 					{/* Filters Section */}
 					<div className="space-y-4 md:col-span-1">
 						<div className="p-4 bg-white rounded-lg shadow">
+							<h3 className="mb-2 font-semibold">Series</h3>
+							{seriess.map((series) => (
+								<label
+									key={series.id}
+									className="flex items-center mb-2 space-x-2">
+									<input
+										type="checkbox"
+										checked={selectedSeriess.includes(series.id)}
+										onChange={() => {
+											setSelectedSeriess((prev) =>
+												prev.includes(series.id)
+													? prev.filter((id) => id !== series.id)
+													: [...prev, series.id]
+											);
+										}}
+										className="rounded"
+									/>
+									<span>{series.name}</span>
+								</label>
+							))}
+
 							<h3 className="mb-2 font-semibold">Subjects</h3>
 							{subjects.map((subject) => (
 								<label
@@ -218,7 +241,7 @@ const BookSelection = () => {
 					</div>
 
 					{/* Books Grid */}
-					<div className="overflow-y-auto md:col-span-3 h-[34rem]">
+					<div className="overflow-y-auto md:col-span-3">
 						{filteredBooks.length ? (
 							<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
 								{filteredBooks.map((book) => (

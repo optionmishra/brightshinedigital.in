@@ -20,6 +20,14 @@ class APIModel extends CI_Model
     return $res;
   }
 
+  public function getAllSubjects()
+  {
+    $res = $this->db
+      ->get('main_subject')
+      ->result();
+    return $res;
+  }
+
   public function getSubjectsBySeriesId($seriesId)
   {
     $res = $this->db
@@ -46,7 +54,7 @@ class APIModel extends CI_Model
   {
     // echo var_dump($subjectIdsArr);
     // exit;
-    $this->db->select('subject.id, subject.sid as subjectId, subject.class as classId, subject.name as title');
+    $this->db->select('subject.id, subject.sid as subjectId, subject.class as classId, subject.name as title, subject.series_id as seriesId');
     if ($seriesId) $this->db->where('series_id', $seriesId);
     if ($subjectIdsArr) $this->db->or_where_in('sid', $subjectIdsArr);
     if ($classIdsArr) $this->db->or_where_in('class', $classIdsArr);

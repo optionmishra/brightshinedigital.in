@@ -1,7 +1,15 @@
+import { useEffect } from "react";
+
 export default function Loading() {
+	useEffect(() => {
+		document.body.style.overflow = "hidden";
+		return () => {
+			document.body.style.overflow = "auto";
+		};
+	}, []);
 	return (
 		<div
-			class="absolute w-full h-full bg-[#9ca3afaa] top-0 z-50 left-0"
+			class="fixed w-full h-full bg-[#9ca3afaa] right-0 bottom-0 z-50 left-0"
 			id="loading">
 			<div
 				role="status"
