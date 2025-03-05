@@ -20,9 +20,9 @@
     <div class="w-full h-full p-5 bg-white rounded-lg shadow-md">
 
       <div class="">
-        <h1 class="text-2xl font-semibold text-center">Teacher Registration</h1>
+        <h1 class="text-2xl font-semibold text-center">Student Registration</h1>
       </div>
-      <form action="<?= base_url('AuthController/teacherRegistrationStore') ?>" method="POST">
+      <form action="<?= base_url('AuthController/studentRegistrationStore') ?>" method="POST">
 
         <!-- Personal Details -->
         <div class="mb-5">
@@ -52,8 +52,8 @@
                 <input class="rounded-md" type="password" name="password" id="password" placeholder="Enter password" required>
               </div>
               <!-- <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/4">
-                <label class="text-sm" for="confirm_password">Confirm Password *</label>
-                <input class="rounded-md" type="password" name="confirm_password" id="confirm_password" placeholder="Enter password">
+                <label class="text-sm" for="confirmPassword">Confirm Password *</label>
+                <input class="rounded-md" type="password" name="confirmPassword" id="confirmPassword" placeholder="Enter password">
               </div> -->
             </div>
           </div>
@@ -68,60 +68,21 @@
           </div>
 
           <div class="flex flex-wrap gap-5">
-            <div class="flex flex-col flex-grow w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="schoolName">School Name *</label>
-              <input class="rounded-md" type="text" name="schoolName" id="schoolName" placeholder="Enter school name" required>
-            </div>
             <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="country">Country *</label>
-              <select class="rounded-md" name="country" id="country" required>
-                <option value="">Select Country</option>
-                <? # foreach ($countries as $country) : 
-                ?>
-                <option value="<?= $countries[0]->id ?>"><?= $countries[0]->name ?></option>
-                <? # endforeach; 
-                ?>
-              </select>
-            </div>
-            <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="state">State *</label>
-              <select class="rounded-md" name="state" id="state" required>
-                <option value="">Select State</option>
-                <?php foreach ($states as $state) : ?>
-                  <option value="<?= $state->id ?>"><?= $state->name ?></option>
+              <label class="text-sm" for="class">Class *</label>
+              <select class="rounded-md" name="class" id="class" required>
+                <option value="">Select Class</option>
+                <?php foreach ($classes as $class): ?>
+                  <option value="<?= $class->id ?>"><?= $class->name ?></option>
                 <?php endforeach; ?>
               </select>
             </div>
-            <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="district">District *</label>
-              <select class="rounded-md" name="district" id="district" required>
-                <option value="">Select District</option>
-              </select>
-            </div>
-
-
-            <div class="flex flex-col flex-grow w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="address">Address *</label>
-              <input class="rounded-md" type="text" name="address" id="address" placeholder="Enter address" required>
-            </div>
-            <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="pin">Pin *</label>
-              <input class="rounded-md" type="text" name="pin" id="pin" placeholder="Enter pin" accept="number" required>
-            </div>
-            <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="principalName">Principal name *</label>
-              <input class="rounded-md" type="text" name="principalName" id="principalName" placeholder="Enter principal name" required>
-            </div>
-
 
             <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="board">Board *</label>
-              <select class="rounded-md" name="board" id="board">
-                <option value="CBSE" selected>CBSE</option>
-                <option value="ICSE">ICSE</option>
-                <option value="State">State</option>
-              </select>
+              <label class="text-sm" for="teacherCode">Teacher Code *</label>
+              <input class="rounded-md" type="text" name="teacherCode" id="teacherCode" placeholder="Enter teacher code" required>
             </div>
+
           </div>
         </div>
 

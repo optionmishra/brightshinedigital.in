@@ -54,9 +54,8 @@ class APIModel extends CI_Model
     return $res;
   }
 
-  public function saveUserBooks($bookIdsArr, $selectedSeriesId)
+  public function saveUserBooks($userId, $bookIdsArr)
   {
-    $userId = $this->session->userdata('user_id');
 
     // Make sure user ID exists
     if (!$userId) {
@@ -119,13 +118,29 @@ class APIModel extends CI_Model
         $this->db->insert_batch('web_user_subjects', $subjectData);
       }
 
-      // Insert series data if we have a series ID
-      if (!empty($selectedSeriesId)) {
-        $seriesData = [
+      // Get series IDs from the books
+      $books = $this->db
+        ->select('series_id')
+        ->where_in('id', $bookIdsArr)
+        ->get('subject')
+        ->result();
+
+      // Build series data array for insertion
+      $seriesData = [];
+      $seriesIdsArr = array_unique(array_map(function ($book) {
+        return $book->series_id;
+      }, $books));
+
+      foreach ($seriesIdsArr as $series_id) {
+        $seriesData[] = [
           'web_user_id' => $userId,
-          'series_id' => $selectedSeriesId,
+          'series_id' => $series_id,
         ];
-        $this->db->insert('web_user_series', $seriesData);
+      }
+
+      // Insert series data if we have a series ID
+      if (!empty($seriesData)) {
+        $this->db->insert_batch('web_user_series', $seriesData);
       }
 
       // Commit the transaction
@@ -136,5 +151,42 @@ class APIModel extends CI_Model
       $this->db->trans_rollback();
       return false;
     }
+  }
+
+  public function assignBooksToStudent($studentId, $teacherCode, $classId)
+  {
+    // Fetch the teacher based on the teacher code
+    $teacher = $this->db
+      ->where('teacher_code', $teacherCode)
+      ->get('web_user')
+      ->row();
+
+    if (!$teacher) {
+      // Handle case where teacher is not found
+      return false;
+    }
+
+    // Fetch books assigned to the teacher
+    $books = $this->db
+      ->select('subject.id as bookId, subject.*')
+      ->from('subject')
+      ->join('web_user_books', 'web_user_books.book_id = subject.id', 'INNER')
+      ->where('web_user_books.web_user_id', $teacher->id)
+      ->where('subject.class', $classId)
+      ->get()
+      ->result();
+
+    if (empty($books)) {
+      // Handle case where no books are found
+      return false;
+    }
+
+    // Extract book IDs
+    $bookIdsArr = array_column($books, 'bookId');
+
+    // Save books to student
+    $res = $this->saveUserBooks($studentId, $bookIdsArr);
+
+    return $res;
   }
 }

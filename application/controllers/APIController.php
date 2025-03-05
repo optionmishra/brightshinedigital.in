@@ -78,7 +78,9 @@ class APIController extends CI_Controller
     $booksIdsArr = $data['selectedBooks'] ?? []; // Extract selectedBooks
     $selectedSeries = $data['selectedSeries'];
 
-    $success = $this->APIModel->saveUserBooks($booksIdsArr, $selectedSeries);
+    $userId = $this->session->userdata('user_id');
+
+    $success = $this->APIModel->saveUserBooks($userId, $booksIdsArr);
     $data = [
       'success' => $success,
       'message' => $success ? 'Books saved successfully' : 'Something went wrong.',

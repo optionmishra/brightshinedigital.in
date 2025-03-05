@@ -2223,8 +2223,14 @@ class AuthModel extends CI_Model
 
 	function addWebUser($data)
 	{
-		$res = $this->db
+		$this->db
 			->insert('web_user', $data);
+
+		$insert_id = $this->db->insert_id();
+		$this->db->where('id', $insert_id);
+		$res = $this->db
+			->get('web_user')
+			->row();
 
 		return $res;
 	}
