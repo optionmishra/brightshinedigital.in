@@ -199,19 +199,20 @@ class Superadmin extends CI_Controller
 		if ($this->session->userdata('level') == 'Super Admin') {
 			$this->check_isvalidated();
 			$id = $this->uri->segment(3);
+			$this->session->set_userdata('web_user_id', $id);
 			$res = $this->AuthModel->retrive_teacher_update($id);
 			// teacher classes (for old registrations)
-			$teacher_classes = explode(',', $res[0]->classes);
+			// $teacher_classes = explode(',', $res[0]->classes);
 			// for new registrations
-			$series_classes =  unserialize($res[0]->series_classes);
+			// $series_classes =  unserialize($res[0]->series_classes);
 			// $series_classes =  $this->AuthModel->get_teacher_series_classes($id);
-			$teacher_series_arr = explode(',', $res[0]->subject);
-			$teacher_series_details = $this->AuthModel->selectable_main_subjects($id);
-			$series_with_all_classes = $this->AuthModel->get_series_all_classes($teacher_series_arr);
-			$subject_series_s = $this->AuthModel->selectable_subject_series($id);
-			$subject_series = $this->AuthModel->teacher_subject_series($id);
-			$main_subjects_arr = $this->AuthModel->get_main_subjects_arr();
-			$series_arr = $this->AuthModel->get_series_arr();
+			// $teacher_series_arr = explode(',', $res[0]->subject);
+			// $teacher_series_details = $this->AuthModel->selectable_main_subjects($id);
+			// $series_with_all_classes = $this->AuthModel->get_series_all_classes($teacher_series_arr);
+			// $subject_series_s = $this->AuthModel->selectable_subject_series($id);
+			// $subject_series = $this->AuthModel->teacher_subject_series($id);
+			// $main_subjects_arr = $this->AuthModel->get_main_subjects_arr();
+			// $series_arr = $this->AuthModel->get_series_arr();
 			$data = [
 				'title' => 'User',
 				'page' => 'User',
@@ -223,16 +224,16 @@ class Superadmin extends CI_Controller
 				'board' => $this->AuthModel->board(),
 				'classes' => $this->AuthModel->classes(),
 				'siteName' => $this->siteName,
-				'series_classes' => $series_classes,
-				'teacher_series_details' => $teacher_series_details,
-				'series_with_all_classes' => $series_with_all_classes,
-				'all_series_of_selected_board' => $this->AuthModel->subject_name($res[0]->board_name),
-				'teacher_classes' => $teacher_classes,
-				'teacher_series_arr' => $teacher_series_arr,
-				'subject_series_s' => $subject_series_s,
-				'subject_series' => $subject_series,
-				'main_subjects_arr' => $main_subjects_arr,
-				'series_arr' => $series_arr,
+				// 'series_classes' => $series_classes,
+				// 'teacher_series_details' => $teacher_series_details,
+				// 'series_with_all_classes' => $series_with_all_classes,
+				// 'all_series_of_selected_board' => $this->AuthModel->subject_name($res[0]->board_name),
+				// 'teacher_classes' => $teacher_classes,
+				// 'teacher_series_arr' => $teacher_series_arr,
+				// 'subject_series_s' => $subject_series_s,
+				// 'subject_series' => $subject_series,
+				// 'main_subjects_arr' => $main_subjects_arr,
+				// 'series_arr' => $series_arr,
 			];
 			// echo '<pre>', var_dump($series_classes), '</pre>';
 			// exit;
