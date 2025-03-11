@@ -75,9 +75,19 @@
         ga('send', 'pageview');
     }
 </script>
-<style>
 
-</style>
+<script>
+    $(document).ready(function() {
+        <?php if ($this->session->flashdata('success')) : ?>
+            toastr['success']('<?= $this->session->flashdata('success') ?>');
+            <?php $this->session->unset_userdata('success') ?>
+        <?php endif; ?>
+        <?php if ($this->session->flashdata('error')) : ?>
+            toastr['error']('<?= $this->session->flashdata('error') ?>');
+            <?php $this->session->unset_userdata('error') ?>
+        <?php endif; ?>
+    });
+</script>
 
 </body>
 
