@@ -81,14 +81,15 @@ class APIController extends CI_Controller
     $booksIdsArr = $data['selectedBooks'] ?? []; // Extract selectedBooks
     $selectedSeries = $data['selectedSeries'];
 
-    $userId = $this->session->userdata('user_id');
+    $userId = $this->session->userdata('web_user_id');
 
     $success = $this->APIModel->saveUserBooks($userId, $booksIdsArr);
     $data = [
       'success' => $success,
       'message' => $success ? 'Books saved successfully' : 'Something went wrong.',
-      'redirect' => base_url('dashboard')
+      'redirect' => $this->session->userdata('ausername') ? base_url('superadmin/web_user_teacher') : base_url('dashboard')
     ];
+    $this->session->set_flashdata('success', 'Books saved successfully');
     return $this->sendAPIResponse($data);
   }
 
