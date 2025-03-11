@@ -356,6 +356,7 @@ class AuthModel extends CI_Model
 
 			$this->session->set_userdata('username', $username);
 			$this->session->set_userdata('user_id', $userData['id']);
+			$this->session->set_userdata('web_user_id', $userData['id']);
 			$this->session->set_userdata('password', $password);
 			$this->session->set_userdata('type', $userData['user_type']);
 
