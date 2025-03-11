@@ -10,6 +10,7 @@
 	<link rel="icon" type="image/png" ref="assets/img/favicon.png">
 	<!-- Main CSS-->
 	<base href="<?= base_url() ?>">
+	<meta name="base_url" content="<?= base_url() ?>">
 	<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 	<!-- Font-icon css-->
 	<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
