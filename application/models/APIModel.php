@@ -12,6 +12,14 @@ class APIModel extends CI_Model
     $this->load->library('session');
   }
 
+  public function getAllBoards()
+  {
+    $res = $this->db
+      ->get('board', 2)
+      ->result();
+    return $res;
+  }
+
   public function getAllSeries()
   {
     $res = $this->db
@@ -54,11 +62,13 @@ class APIModel extends CI_Model
   {
     // echo var_dump($subjectIdsArr);
     // exit;
-    $this->db->select('subject.id, subject.sid as subjectId, subject.class as classId, subject.name as title, subject.series_id as seriesId');
+    $this->db->select('subject.id, subject.sid as subjectId, subject.class as classId, subject.name as title, subject.series_id as seriesId,main_subject.board as boardName');
+    $this->db->from('subject');
+    $this->db->join('main_subject', 'subject.sid = main_subject.id');
     if ($seriesId) $this->db->where('series_id', $seriesId);
     if ($subjectIdsArr) $this->db->or_where_in('sid', $subjectIdsArr);
     if ($classIdsArr) $this->db->or_where_in('class', $classIdsArr);
-    $res = $this->db->get('subject')->result();
+    $res = $this->db->get()->result();
     return $res;
   }
 
@@ -196,5 +206,32 @@ class APIModel extends CI_Model
     $res = $this->saveUserBooks($studentId, $bookIdsArr);
 
     return $res;
+  }
+
+  public function updateUserBoard($userId, $selectedBoard)
+  {
+    $this->db->where('id', $userId);
+    $this->db->set('board_name', $selectedBoard);
+    $res = $this->db->update('web_user');
+    return $res;
+  }
+
+  public function getSelectedBoard($userId)
+  {
+    $this->db->where('id', $userId);
+    $user = $this->db->get('web_user')->row();
+    return $user->board_name;
+  }
+
+  public function getSelectedBooks($userId)
+  {
+    $bookIds = $this->db
+      ->select('book_id')
+      ->where('web_user_id', $userId)
+      ->get('web_user_books')
+      ->result_array();
+
+    // Extract the book_id values from the result array
+    return array_column($bookIds, 'book_id');
   }
 }

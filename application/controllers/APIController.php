@@ -59,16 +59,21 @@ class APIController extends CI_Controller
   {
     $allSeries = $this->APIModel->getAllSeries();
     $allSubjects = $this->APIModel->getAllSubjects();
+    $boards = $this->APIModel->getAllBoards();
     // $seriesId = $allSeries[0]->id;
     // $subjects = $this->APIModel->getSubjectsBySeriesId($seriesId);
     // $subjectIdsArr = array_map(fn($subject) => $subject->id, $subjects);
+    $userId = $this->session->userdata('web_user_id');
     $data = [
+      'boards' => $boards,
       'series' => $allSeries,
       // 'subjects' => $subjects,
       'subjects' => $allSubjects,
       'classes' => $this->APIModel->getAllClasses(),
       // 'books' => $this->APIModel->getFilteredBooks($seriesId, $subjectIdsArr),
       'books' => $this->APIModel->getFilteredBooks(),
+      'selectedBoard' => $this->AuthModel->isSeriesAssgined($userId) ? $this->APIModel->getSelectedBoard($userId) : "",
+      'selectedBooks' => $this->AuthModel->isSeriesAssgined($userId) ?  $this->APIModel->getSelectedBooks($userId) : [],
     ];
     return $this->sendAPIResponse($data);
   }
@@ -79,9 +84,10 @@ class APIController extends CI_Controller
     $rawData = file_get_contents("php://input"); // Read raw JSON input
     $data = json_decode($rawData, true); // Decode JSON into an associative array
     $booksIdsArr = $data['selectedBooks'] ?? []; // Extract selectedBooks
-    $selectedSeries = $data['selectedSeries'];
+    $selectedBoard = $data['selectedBoard'];
 
     $userId = $this->session->userdata('web_user_id');
+    $updateUserBoard = $this->APIModel->updateUserBoard($userId, $selectedBoard);
 
     $success = $this->APIModel->saveUserBooks($userId, $booksIdsArr);
     $data = [

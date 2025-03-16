@@ -39,11 +39,11 @@
               </div>
               <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/4">
                 <label class="text-sm" for="email">Email *</label>
-                <input class="rounded-md" type="email" name="email" id="email" placeholder="Enter email" required>
+                <input class="rounded-md" type="email" name="email" id="email" placeholder="Enter valid email" required>
               </div>
               <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/4">
                 <label class="text-sm" for="phone">Phone *</label>
-                <input class="rounded-md" type="tel" name="phone" id="phone" placeholder="Enter phone" required>
+                <input class="rounded-md" type="tel" name="phone" id="phone" placeholder="Enter mobile number" required>
               </div>
             </div>
             <div class="flex flex-wrap gap-5">
@@ -101,8 +101,8 @@
 
 
             <div class="flex flex-col flex-grow w-full gap-2 mb-2 sm:w-1/5">
-              <label class="text-sm" for="address">Address *</label>
-              <input class="rounded-md" type="text" name="address" id="address" placeholder="Enter address" required>
+              <label class="text-sm" for="address">Address</label>
+              <input class="rounded-md" type="text" name="address" id="address" placeholder="Enter address">
             </div>
             <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
               <label class="text-sm" for="pin">Pin *</label>
@@ -114,14 +114,14 @@
             </div>
 
 
-            <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
+            <!-- <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
               <label class="text-sm" for="board">Board *</label>
               <select class="rounded-md" name="board" id="board">
                 <option value="CBSE" selected>CBSE</option>
                 <option value="ICSE">ICSE</option>
                 <option value="State">State</option>
               </select>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -129,7 +129,7 @@
           <div class="flex w-full gap-5 sm:w-1/2">
             <a class="w-1/2 px-5 py-2 text-lg font-semibold text-center text-white bg-gray-500 rounded-md hover:bg-gray-800"
               href="<?= base_url() ?>">Home</a>
-            <button class="w-1/2 px-5 py-2 text-lg font-semibold text-center text-white bg-blue-500 rounded-md hover:bg-blue-800" type="submit">Register</button>
+            <button class="w-1/2 px-5 py-2 text-lg font-semibold text-center text-white bg-blue-500 rounded-md hover:bg-blue-800" type="submit">Next</button>
           </div>
         </div>
 

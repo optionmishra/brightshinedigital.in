@@ -1344,7 +1344,7 @@ class Admin_master extends CI_Controller
 		$i = 1;
 		foreach ($res as $key => &$value) {
 			$value->sr_no = $i;
-			$value->action = "<a series_id='" . $value->id . "' class='pr-2 pointer edit-series' data-toggle='modal' data-target='#edit-series'><i class='fa fa-edit'></i></a>"
+			$value->action = "<a data-mSubIds='" . $value->subject_ids . "' series_id='" . $value->id . "' class='pr-2 pointer edit-series' data-toggle='modal' data-target='#edit-series'><i class='fa fa-edit'></i></a>"
 				. "<a series_id='" . $value->id . "' class='pointer delete_series'><i class='fa fa-trash text-danger'></i></a>";
 			$i++;
 		}
@@ -1356,11 +1356,12 @@ class Admin_master extends CI_Controller
 		// if ($this->permission->is_allow('New Subject')) {
 		$data = [
 			'name' => $this->input->post('name'),
-			'main_subject_id' => $this->input->post('sid'),
+			// 'main_subject_id' => $this->input->post('sid'),
 			// 'class' => $this->input->post('class'),
 			// 'categories' => implode(',', $this->input->post('categories')),
 		];
-		$res = $this->AuthModel->create_series($data);
+		$subjects = $this->input->post('subjects');
+		$res = $this->AuthModel->create_series($data, $subjects);
 		if (!$res) {
 			$this->message('error', $this->AuthModel->error);
 		}
@@ -1376,9 +1377,10 @@ class Admin_master extends CI_Controller
 		$id = $this->input->post('id');
 		$details = [
 			'name' => $this->input->post('name'),
-			'main_subject_id' => $this->input->post('sid'),
+			// 'main_subject_id' => $this->input->post('sid'),
 		];
-		$res = $this->AuthModel->update_series($details, $id);
+		$subjects = $this->input->post('subjects');
+		$res = $this->AuthModel->update_series($details, $id, $subjects);
 		if (!$res) {
 			$this->message('error', $this->AuthModel->error);
 		}

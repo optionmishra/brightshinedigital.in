@@ -9,14 +9,14 @@ export default function Loading() {
 	}, []);
 	return (
 		<div
-			class="fixed w-full h-full bg-[#9ca3afaa] right-0 bottom-0 z-50 left-0"
+			className="fixed w-full h-full bg-[#9ca3afaa] right-0 bottom-0 z-50 left-0"
 			id="loading">
 			<div
 				role="status"
-				class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+				className="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
 				<svg
 					aria-hidden="true"
-					class="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+					className="w-24 h-24 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
 					viewBox="0 0 100 101"
 					fill="none"
 					xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@ export default function Loading() {
 						fill="currentFill"
 					/>
 				</svg>
-				<span class="sr-only">Loading...</span>
+				<span className="sr-only">Loading...</span>
 			</div>
 		</div>
 	);

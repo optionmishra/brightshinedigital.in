@@ -54,7 +54,7 @@ class AuthController extends CI_Controller
       'board_name' => $this->input->post('board'),
       'user_type' => 'Teacher',
       'status' => 0,
-      'stu_limit' => 30,
+      'stu_limit' => 60,
       'school_name' => $this->input->post('schoolName'),
       'password' => $this->input->post('password'),
       // 'session_start' => $start_session,
@@ -89,7 +89,7 @@ class AuthController extends CI_Controller
       return redirect(base_url('/teacher-registration'));
     } else {
 
-      $this->session->set_flashdata('success', 'You are Successfully registered with us, Please Check your registered email for your account credentials...');
+      $this->session->set_flashdata('success', 'Select your books to register with BrightShine and wait for verification. Check your registered email id for your account details.');
 
       $res = $this->AuthModel->validate_web($this->input->post('email'), $this->input->post('password'), '0');
       return redirect(base_url('/book-selection'));
@@ -179,7 +179,7 @@ class AuthController extends CI_Controller
         $this->email->message($this->load->view('web/email_template', $emailData, true));
         $this->email->send();
 
-        $this->session->set_flashdata('success', 'You are Successfully registered with us, Please Check your registered email for your account credentials...');
+        $this->session->set_flashdata('success', 'You are registered with BrightShine, please wait for verification. Check your registered email id for your account details.');
         return redirect(base_url('student-registration'));
       } else {
         $this->session->set_flashdata('error', 'Something is wrong! You are not registered');
@@ -190,9 +190,13 @@ class AuthController extends CI_Controller
 
   public function bookSelection()
   {
-    $this->load->view('globals/web/header');
-    $this->load->view('web/book-selection');
-    $this->load->view('globals/web/footer');
+    if (!$this->AuthModel->isSeriesAssgined()) {
+      $this->load->view('globals/web/header');
+      $this->load->view('web/book-selection');
+      $this->load->view('globals/web/footer');
+    } else {
+      redirect(base_url());
+    }
   }
 
   private function randomPass($numchar)

@@ -540,7 +540,7 @@ class Superadmin extends CI_Controller
 				'row' => $this->AuthModel->user_profile(),
 				'cat' => $this->AuthModel->category(),
 				'permissions' => $this->AuthModel->permission(),
-				'msubject' => $this->AuthModel->msubject(),
+				'subjects' => $this->AuthModel->msubject(),
 				'classes' => $this->AuthModel->classes(),
 				'siteName' => $this->siteName
 			];

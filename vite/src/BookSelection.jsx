@@ -4,11 +4,13 @@ import Loading from "./components/ui/Loading";
 import Error from "./components/ui/Error";
 
 const BookSelection = () => {
+	const [boards, setBoards] = useState([]);
+	const [selectedBoard, setSelectedBoard] = useState("");
 	const [seriess, setSeriess] = useState([]);
+	const [selectedSeriess, setSelectedSeriess] = useState([]);
 	const [subjects, setSubjects] = useState([]);
 	const [classes, setClasses] = useState([]);
 	const [books, setBooks] = useState([]);
-	const [selectedSeriess, setSelectedSeriess] = useState([]);
 	const [selectedSubjects, setSelectedSubjects] = useState([]);
 	const [selectedClasses, setSelectedClasses] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
@@ -25,26 +27,9 @@ const BookSelection = () => {
 			?.getAttribute("content")}api/` ||
 		"http://localhost/htdocs/brightshinedigital.in/api/";
 
-	// Sample data - in real app this would come from API
-	// const subjects = [
-	// 	{ id: 1, name: "Mathematics" },
-	// 	{ id: 2, name: "Science" },
-	// 	{ id: 3, name: "Literature" },
-	// ];
-
-	// const classes = [
-	// 	{ id: 1, name: "Class 9" },
-	// 	{ id: 2, name: "Class 10" },
-	// 	{ id: 3, name: "Class 11" },
-	// ];
-
-	// const books = [
-	// 	{ id: 1, title: "Advanced Mathematics", subjectId: 1, classId: 2 },
-	// 	{ id: 2, title: "Physics Fundamentals", subjectId: 2, classId: 2 },
-	// 	// More books would be here
-	// ];
-
 	const filteredBooks = books.filter((book) => {
+		const matchesBoard =
+			selectedBoard == book.boardName || book.boardName == "All";
 		const matchesSeries =
 			selectedSeriess.length === 0 || selectedSeriess.includes(book.seriesId);
 		const matchesSubject =
@@ -55,7 +40,13 @@ const BookSelection = () => {
 		const matchesSearch = book.title
 			.toLowerCase()
 			.includes(searchQuery.toLowerCase());
-		return matchesSeries && matchesSubject && matchesClass && matchesSearch;
+		return (
+			matchesBoard &&
+			matchesSeries &&
+			matchesSubject &&
+			matchesClass &&
+			matchesSearch
+		);
 	});
 
 	useEffect(() => {
@@ -66,11 +57,16 @@ const BookSelection = () => {
 		setLoading(true);
 		const res = await fetch(`${BASE_URL}initBookSelection`);
 		const data = await res.json();
+		setBoards(data.boards);
 		setSeriess(data.series);
 		// setSelectedSeries(data.series[0]?.id);
 		setSubjects(data.subjects);
 		setClasses(data.classes);
 		setBooks(data.books);
+		data.selectedBoard
+			? setSelectedBoard(data.selectedBoard)
+			: setSelectedBoard(data.boards[0]?.name);
+		if (data.selectedBooks.length) setSelectedBooks(data.selectedBooks);
 		setLoading(false);
 	}
 
@@ -120,7 +116,7 @@ const BookSelection = () => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ selectedBooks }),
+			body: JSON.stringify({ selectedBooks, selectedBoard }),
 		});
 		const data = await res.json();
 		if (!data.success) setErrorStatus({ error: true, message: data.message });
@@ -141,7 +137,7 @@ const BookSelection = () => {
 			{errorStatus.error && (
 				<Error message={errorStatus.message} setErrorStatus={setErrorStatus} />
 			)}
-			<div className="p-4 mx-auto bg-gray-50 h-[40rem] overflow-y-auto">
+			<div className="p-4 mx-auto bg-gray-50">
 				{/* <div className="flex flex-col w-full gap-2 mb-2 sm:w-1/5">
 					<label className="text-sm" htmlFor="series">
 						Prescribed Series *
@@ -175,6 +171,27 @@ const BookSelection = () => {
 					{/* Filters Section */}
 					<div className="space-y-4 md:col-span-1">
 						<div className="p-4 bg-white rounded-lg shadow">
+							<h3 className="mb-2 font-semibold">Board</h3>
+							<form action="">
+								{boards.map((board) => (
+									<label
+										key={board.id}
+										className="flex items-center mb-2 space-x-2">
+										<input
+											type="radio"
+											name="board"
+											checked={selectedBoard == board.name}
+											onChange={() => {
+												setSelectedBoard((prev) => board.name);
+												setSelectedBooks([]);
+											}}
+											className="rounded"
+										/>
+										<span>{board.name}</span>
+									</label>
+								))}
+							</form>
+
 							<h3 className="mb-2 font-semibold">Series</h3>
 							{seriess.map((series) => (
 								<label
@@ -280,17 +297,14 @@ const BookSelection = () => {
 					</div>
 				</div>
 			</div>
-			{filteredBooks.length > 0 && selectedBooks.length > 0 ? (
-				<div className="flex justify-end w-full px-4 pb-4 sm:pe-4">
-					<button
-						className="w-full sm:w-[74%] px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-800"
-						onClick={handleSaveBooks}>
-						Save
-					</button>
-				</div>
-			) : (
-				""
-			)}
+			<div className="flex justify-end w-full px-4 pb-4 sm:pe-4">
+				<button
+					disabled={!selectedBooks.length > 0}
+					className="w-full sm:w-[74%] disabled:bg-gray-500 disabled:cursor-not-allowed px-4 py-2 font-semibold text-white bg-blue-500 rounded hover:bg-blue-800"
+					onClick={handleSaveBooks}>
+					Register
+				</button>
+			</div>
 		</>
 	);
 };

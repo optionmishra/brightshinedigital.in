@@ -129,7 +129,6 @@
                     </div> */ ?>
                 </div>
 
-                <div id="bookSelection"></div>
                 <div class="modal-footer">
                     <button class="float-right btn btn-danger" data-dismiss="modal">Cancel</button>
                     <button class="float-right btn btn-primary">Save</button>
@@ -137,6 +136,7 @@
             </div>
         </form>
     <?php endforeach; ?>
+    <div id="bookSelection"></div>
 </main>
 
 <link rel="stylesheet" href="<?= base_url('assets/new-pages/css/style.css') ?>" />

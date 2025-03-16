@@ -37,7 +37,7 @@
 		</li>
 		<li class="treeview"><a class="app-menu__item <?= $this->uri->segment(2) === 'classes' ? 'active' : ''; ?>" href="superadmin/classes"><i class="fa fa-book app-menu__icon" aria-hidden="true"></i> <span class="app-menu__label"> Classes</span><i class="treeview-indicator"></i></a>
 		<li class="treeview"><a class="app-menu__item <?= $this->uri->segment(2) === 'classess_section' ? 'active' : ''; ?>" href="superadmin/classess_section"><i class="fa fa-book app-menu__icon" aria-hidden="true"></i> <span class="app-menu__label"> Class Section</span><i class="treeview-indicator"></i></a>
-		<li class="treeview  <?= in_array($this->uri->segment(2), ['category', 'websupport']) ? 'is-expanded' : ''; ?>"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="fa fa-question-circle-o app-menu__icon" aria-hidden="true"></i> <span class="app-menu__label"> Question Generator</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+		<li class="treeview  <?= in_array($this->uri->segment(2), ['category', 'websupport']) ? 'is-expanded' : ''; ?>"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="fa fa-question-circle-o app-menu__icon" aria-hidden="true"></i> <span class="app-menu__label"> Websupport Contents</span><i class="treeview-indicator fa fa-angle-right"></i></a>
 			<ul class="treeview-menu">
 				<li><a class="treeview-item  <?= $this->uri->segment(2) === 'category' ? 'active' : ''; ?>" href="superadmin/category"><i class="fa fa-list icon" aria-hidden="true"></i> Category</a>
 					<?php foreach ($cat as $ca) : ?>

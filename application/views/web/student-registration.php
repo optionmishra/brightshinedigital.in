@@ -39,11 +39,11 @@
               </div>
               <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/4">
                 <label class="text-sm" for="email">Email *</label>
-                <input class="rounded-md" type="email" name="email" id="email" placeholder="Enter email" required>
+                <input class="rounded-md" type="email" name="email" id="email" placeholder="Enter valid email" required>
               </div>
               <div class="flex flex-col w-full gap-2 mb-2 sm:w-1/4">
                 <label class="text-sm" for="phone">Phone *</label>
-                <input class="rounded-md" type="tel" name="phone" id="phone" placeholder="Enter phone" required>
+                <input class="rounded-md" type="tel" name="phone" id="phone" placeholder="Enter mobile number" required>
               </div>
             </div>
             <div class="flex flex-wrap gap-5">

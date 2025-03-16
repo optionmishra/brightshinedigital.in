@@ -1214,10 +1214,17 @@ class AuthModel extends CI_Model
 	// Series Start
 	function series()
 	{
-		$this->db->select('main_subject.name as subsName');
-		$this->db->select('series.*');
-		$this->db->from('series as series');
-		$this->db->join('main_subject as main_subject', 'series.main_subject_id=main_subject.id', 'INNER');
+		// $this->db->select('main_subject.name as subsName');
+		// $this->db->select('series.*');
+		// $this->db->from('series as series');
+		// $this->db->join('main_subject as main_subject', 'series_main_subjects.main_subject_id=main_subject.id', 'INNER');
+		$this->db->select('s.id, s.name, GROUP_CONCAT(ms.id) as subject_ids, GROUP_CONCAT(ms.name) as subject_names');
+		$this->db->from('series s');
+		$this->db->join('series_main_subjects sms', 's.id = sms.series_id', 'left');
+		$this->db->join('main_subject ms', 'ms.id = sms.main_subject_id', 'left');
+		$this->db->group_by('s.id');
+		$this->db->order_by('s.id');
+
 		$res = $this->db->get()->result();
 		return $res;
 	}
@@ -1229,9 +1236,29 @@ class AuthModel extends CI_Model
 		$res = $this->db->get('series')->result();
 		return $res;
 	}
-	function create_series($data)
+	function create_series($data, $subjects)
 	{
 		$res = $this->db->insert('series', $data);
+		$insert_id = $this->db->insert_id();
+
+		// Begin transaction for atomicity
+		$this->db->trans_begin();
+
+		foreach ($subjects as $subjectId) {
+			$subjectData[] = [
+				'series_id' => $id,
+				'main_subject_id' => $subjectId,
+			];
+		}
+
+		// Insert series data if we have a series ID
+		if (!empty($subjectData)) {
+			$this->db->insert_batch('series_main_subjects', $subjectData);
+		}
+
+		// Commit the transaction
+		$this->db->trans_commit();
+
 		if (!$res) {
 			$this->error = $this->db->error()['message'];
 			return FALSE;
@@ -1239,11 +1266,33 @@ class AuthModel extends CI_Model
 			return TRUE;
 		}
 	}
-	function update_series($details, $id)
+	function update_series($details, $id, $subjects)
 	{
 		$this->db->where('id', $id);
 		$this->db->set($details);
 		$res = $this->db->update('series');
+
+		// Begin transaction for atomicity
+		$this->db->trans_begin();
+
+		$this->db->where('series_id', $id);
+		$this->db->delete('series_main_subjects');
+
+		foreach ($subjects as $subjectId) {
+			$subjectData[] = [
+				'series_id' => $id,
+				'main_subject_id' => $subjectId,
+			];
+		}
+
+		// Insert series data if we have a series ID
+		if (!empty($subjectData)) {
+			$this->db->insert_batch('series_main_subjects', $subjectData);
+		}
+
+		// Commit the transaction
+		$this->db->trans_commit();
+
 		if (!$res) {
 			$this->error = $this->db->error()['message'];
 			return FALSE;
@@ -2347,9 +2396,9 @@ class AuthModel extends CI_Model
 		$this->session->set_userdata('selectedCategory', $categoryId);
 	}
 
-	public function isSeriesAssgined()
+	public function isSeriesAssgined($userId = null)
 	{
-		$userId = $this->session->userdata('user_id');
+		if (!$userId) $userId = $this->session->userdata('user_id');
 		$res = $this->db
 			->where('web_user_id', $userId)
 			->get('web_user_series')
