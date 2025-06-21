@@ -36,7 +36,7 @@
 									<br>
 									Hello: <?= $fullname ?><br>
 									Username: <?= $user ?><br>
-									<p>To get your password, please contact publisher, call us:<?php echo $mobile1['value']; ?></p>
+									<p>Thank you for signing up with BrighShine! Login with your credentials and enter the world of Digital Resources!, you can call us at: <?php echo $mobile1['value']; ?></p>
 									<br>
 									<div style="background-color:#ddd;height:1px;width:100%"> </div>
 									<br>
