@@ -2,18 +2,25 @@
 
   <div class="container py-10 mx-auto">
 
-    <?php if ($this->session->flashdata('error')) : ?>
+    <?php if ($this->session->flashdata("error")): ?>
       <div class="text-center text-red-500">
-        <strong><?= $this->session->flashdata('error'); ?></strong>
-        <?php $this->session->unset_userdata('error'); ?>
+        <strong><?= $this->session->flashdata("error") ?></strong>
+        <?php $this->session->unset_userdata("error"); ?>
       </div>
     <?php endif; ?>
 
 
-    <?php if ($this->session->flashdata('success')) : ?>
-      <div class="text-center text-green-500">
-        <strong><?= $this->session->flashdata('success'); ?></strong>
-        <?php $this->session->unset_userdata('success'); ?>
+    <?php if ($this->session->flashdata("success")): ?>
+      <div id="success-popup" class="fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-500 bg-opacity-50">
+        <div class="bg-white rounded-lg shadow-lg p-5">
+            <div>
+                <strong class="text-green-500 text-center">Your registration is successful. Login and Download the Digital Resources.</strong>
+            </div>
+            <div class="flex justify-center items-center mt-4">
+                <button onclick="document.getElementById('success-popup').style.display = 'none';"
+                    class="border px-4 py-2 font-semibold rounded hover:bg-gray-100">Close</button>
+            </div>
+        </div>
       </div>
     <?php endif; ?>
 
@@ -22,7 +29,9 @@
       <div class="">
         <h1 class="text-2xl font-semibold text-center">Student Registration</h1>
       </div>
-      <form action="<?= base_url('AuthController/studentRegistrationStore') ?>" method="POST">
+      <form action="<?= base_url(
+          "AuthController/studentRegistrationStore"
+      ) ?>" method="POST">
 
         <!-- Personal Details -->
         <div class="mb-5">
@@ -100,4 +109,4 @@
 
 </main>
 
-<script src="<?= base_url('assets/new-pages/js/registration.js') ?>"></script>
+<script src="<?= base_url("assets/new-pages/js/registration.js") ?>"></script>
