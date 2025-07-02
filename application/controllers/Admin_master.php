@@ -663,7 +663,7 @@ class Admin_master extends CI_Controller
 			} else {
 				$active = "Inactive";
 			}
-
+			$value->country = $this->AuthModel->getCountry($value->country)->name;
 			$value->status = $active;
 			$value->subject = $subject;
 			$value->action = "<a user_id='" . $value->id . "' class='pr-2 pointer edit-user' href='superadmin/teacher_update/" . $value->id . "'><i class='fa fa-edit'></i></a>"

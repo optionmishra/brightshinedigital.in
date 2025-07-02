@@ -2626,4 +2626,13 @@ class AuthModel extends CI_Model
 
         return (bool) $res;
     }
+
+    public function getCountry($countryId)
+    {
+        $country = $this->db->where('id', $countryId)
+            ->get('country')
+            ->row();
+
+        return $country;
+    }
 }
